@@ -1,0 +1,6 @@
+{
+  "terminal.integrated.env.osx": {
+    "PATH": "/Users/jeremyt/.platformio/penv/bin:/Users/jeremyt/.platformio/penv:/usr/local/share/android-sdk/build-tools/28.0.3:/usr/local/share/android-sdk/platform-tools:/usr/local/share/android-sdk/tools:/usr/local/share/android-sdk/tools/bin:/usr/local/opt/gradle/bin:/usr/local/opt/maven/bin:/usr/local/opt/ant/libexec/bin:/Users/jeremyt/.rbenv/shims:/usr/local/opt/mysql-client/bin:/Library/PostgreSQL/10/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/jeremyt/.flutter-sdk/bin:/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/:/Users/jeremyt/.antigen/bundles/robbyrussell/oh-my-zsh/lib",
+    "PLATFORMIO_CALLER": "vscode"
+  }
+}
