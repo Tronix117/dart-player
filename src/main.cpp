@@ -84,16 +84,69 @@ void hit(int val, int multiplicator) {
 }
 
 void handleLines(uint8_t masterLine, uint8_t slaveLine) {
-  uint8_t val = 0;
-  uint8_t multiplicator = 0;
+  int val = 0;
+  int multiplicator = 0;
+
+  // debug
+  // PORTD = slaveLine << 4 | masterLine;
 
   // convert masterLine + slaveLine to val + multiplicator
 
-  PORTD = slaveLine << 4 | masterLine;
-
-  if (val) {
-    hit(val, multiplicator);
+  switch (slaveLine)
+  {
+  case 1:
+  case 7:
+    multiplicator = 3;
+    break;
+  case 2:
+  case 6:
+    multiplicator = 2;
+    break;
+  case 3:
+  case 5:
+    multiplicator = 1;
+    break;
   }
+
+  // slave1 = tripleA
+  // slave2 = doubleA
+  // slave3 = simpleA
+  // slave4 = bulls-eye
+  // slave5 = simpleB
+  // slave6 = doubleB
+  // slave7 = tripleB
+
+  int groupAMapping[] = { 4, 18, 1, 20, 11, 14, 9, 12, 5 };
+  int groupBMapping[] = { 13, 6, 10, 15, 7, 19, 3, 17, 2 };
+
+  // master1 = 4, 13, double BE
+  // master2 = 18, 6, simple BE
+  // master3 = 1, 10
+  // master4 = 20, 15
+  // master5 = 8, 16
+  // master6 = 11, 7
+  // master7 = 14, 19
+  // master8 = 9, 3
+  // master9 = 12, 17
+  // master10 = 5, 2
+
+  if (masterLine > 0 && slaveLine > 0) {
+    if (slaveLine < 4) {
+      val = groupAMapping[masterLine - 1];
+    } else if (slaveLine > 4) {
+      val = groupBMapping[masterLine - 1];
+    } else if (slaveLine == 4) {
+      val = 25;
+      if (masterLine == 1) multiplicator = 2;
+      else if (masterLine == 2) multiplicator = 1;
+    }
+  }
+
+  // if (val) {
+  //   hit(val, multiplicator);
+  // }
+
+  PORTD = masterLine;
 }
 
 void handleAnalogMatrix(int inputs[ANALOG_DART_PIN_SIZE]) {
@@ -153,6 +206,7 @@ void trigger() {
 void setup() {
   // Set PORT READ/WRITE
   DDRD = 0xff; // Port D to write
+  PORTD = 0;
 
   // Stop Loop, and jump to trigger method when value on analog pin change
   for(uint8_t i=0; i < ANALOG_DART_PIN_SIZE; i++) {
@@ -163,7 +217,7 @@ void setup() {
 
 void loop() {
   trigger();
-  delay(1000);
+  delay(10);
 
   // Just to check if program is working
   // PORTD ^= 0b10000000;
