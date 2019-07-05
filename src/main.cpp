@@ -28,8 +28,9 @@ const uint8_t INPUT_MATRIX_COEFF = 8; // meaning 1024 (HIGH VOLTAGE) input will 
 const uint8_t INPUT_MATRIX_THREASHOLD = 2 * INPUT_MATRIX_COEFF;
 
 
-void play(uint16_t melody[], uint8_t noteDurations[]) {
-  for (int i = 0; i < 8; i++) {
+void play(uint16_t melody[], uint8_t noteDurations[], int length) {
+
+  for (int i = 0; i < length; i++) {
     int noteDuration = 1000 / noteDurations[i];
     tone(SOUND_PIN, melody[i], noteDuration);
 
@@ -39,15 +40,52 @@ void play(uint16_t melody[], uint8_t noteDurations[]) {
   }
 }
 
-void hit(uint8_t val, uint8_t multiplicator) {
-  uint16_t melody[] = { NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3,0, NOTE_B3, NOTE_C4 };
-  uint8_t durations[] = { 4, 8, 8, 4, 4, 4, 4, 4 };
-  // play( melody, durations);
+void hit(int val, int multiplicator) {
+  // uint16_t melody[] = { NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3,0, NOTE_B3, NOTE_C4 };
+  // uint8_t durations[] = { 4, 8, 8, 4, 4, 4, 4, 4 };
+  // uint16_t melody[] = {
+  //   NOTE_G4, NOTE_C4, NOTE_DS4, NOTE_F4, NOTE_G4, NOTE_C4, NOTE_DS4, NOTE_F4,
+  //   NOTE_G4, NOTE_C4, NOTE_DS4, NOTE_F4, NOTE_G4, NOTE_C4, NOTE_DS4, NOTE_F4,
+  //   NOTE_G4, NOTE_C4, NOTE_E4, NOTE_F4, NOTE_G4, NOTE_C4, NOTE_E4, NOTE_F4,
+  // };
+  // uint8_t durations[] = {
+  //   2, 2, 4, 8, 2, 2, 4, 8,
+  //   2, 2, 4, 8, 2, 2, 4, 8,
+  //   2, 2, 4, 8, 2, 2, 4, 8
+  // };
+  // play( melody, durations, 24);
+  // uint16_t melody[3] = { };
+  // uint8_t durations[20] = { };
+
+  // //  PORTD = val;
+
+  // for (uint8_t i = 0; i < multiplicator; i++) {
+  //   melody[i] = NOTE_C4;
+  //   durations[i] = 4;
+  // }
+
+  // melody[multiplicator] = 0;
+  // durations[multiplicator] = 2;
+
+  // for (uint8_t i = 0; i < val; i++) {
+  //   melody[multiplicator + i] = NOTE_C4;
+  //   durations[multiplicator + i] = 4;
+  // }
+
+  uint16_t melody[] = {
+    NOTE_G4, NOTE_C4, NOTE_E4,
+  };
+  uint8_t durations[] = {
+    2, 2, 4,
+  };
+  play( melody, durations, 3);
+
+  // play( melody, durations, multiplicator + val + 1);
 }
 
 void handleLines(uint8_t masterLine, uint8_t slaveLine) {
-  uint8_t val;
-  uint8_t multiplicator;
+  uint8_t val = 0;
+  uint8_t multiplicator = 0;
 
   // convert masterLine + slaveLine to val + multiplicator
 
@@ -125,7 +163,7 @@ void setup() {
 
 void loop() {
   trigger();
-  delay(100);
+  delay(1000);
 
   // Just to check if program is working
   // PORTD ^= 0b10000000;
