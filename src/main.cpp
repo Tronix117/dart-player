@@ -1,16 +1,18 @@
 #include <Arduino.h>
 #include <pitches.h>
 
-const uint8_t ANALOG_DART_PIN_SIZE = 3;
-uint8_t analogDartPins[ANALOG_DART_PIN_SIZE] = { A0, A1, A2 };
+const uint8_t ANALOG_DART_PIN_SIZE = 4;
+uint8_t analogDartPins[ANALOG_DART_PIN_SIZE] = { A0, A1, A2, A3 };
 const uint8_t SOUND_PIN = A5;
 
 const uint8_t DART_MASTER_LINE_SIZE = 10;
 const uint8_t DART_SLAVE_LINE_SIZE = 7;
-const int INPUT_MATRIX[ANALOG_DART_PIN_SIZE][3][DART_MASTER_LINE_SIZE] = {{
-    { 118, 116, 114, 112, 110, 108, 106, 104, 97, 91 },
-    { 70, 64, 59, 54, 50, 47, 44, 42, 33, 27 },
-    { 23, 20, 17, 15, 13, 12, 11, 10, 7, 6 }
+const int INPUT_MATRIX[ANALOG_DART_PIN_SIZE][2][DART_MASTER_LINE_SIZE] = {
+  {
+    { 118, 116, 114, 112, 111, 109, 107, 106, 99, 93 }
+  }, {
+    { 117, 115, 113, 111, 109, 107, 106, 104, 97, 91 },
+    { 64, 58, 52, 48, 44, 41, 39, 36, 28, 23 }
   }, {
     { 117, 115, 113, 111, 109, 107, 106, 104, 97, 91 },
     { 64, 58, 52, 48, 44, 41, 39, 36, 28, 23 }
@@ -20,7 +22,7 @@ const int INPUT_MATRIX[ANALOG_DART_PIN_SIZE][3][DART_MASTER_LINE_SIZE] = {{
   }
 };
 
-const uint8_t INPUT_MATRIX_GROUP_SIZES[ANALOG_DART_PIN_SIZE] = { 3, 2, 2 };
+const uint8_t INPUT_MATRIX_GROUP_SIZES[ANALOG_DART_PIN_SIZE] = { 1, 2, 2, 2 };
 
 const uint8_t INPUT_MATRIX_COEFF = 8; // meaning 1024 (HIGH VOLTAGE) input will become 128
 
@@ -189,6 +191,7 @@ void handleAnalogMatrix(int inputs[ANALOG_DART_PIN_SIZE]) {
   }
 
   handleLines(masterLine, slaveLine);
+  // PORTD = 1;
 }
 
 void trigger() {
